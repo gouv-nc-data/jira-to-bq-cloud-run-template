@@ -1,0 +1,1 @@
+# jira-to-bq-cloud-run-template
