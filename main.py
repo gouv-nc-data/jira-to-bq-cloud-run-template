@@ -1,10 +1,12 @@
 import os
 import sys
+from urllib import response
 
 import dlt
 from dlt.sources.sql_database import sql_database
 from loguru import logger
 from dotenv import load_dotenv
+from google.cloud import secretmanager
 
 load_dotenv()
 
@@ -15,13 +17,16 @@ logger.add(
     level="INFO",
 )
 
-
 def load_jira_data():
     """
     Pipeline dlt pour exporter JIRA de PostgreSQL vers BigQuery.
     """
     # Configuration PostgreSQL
-    pg_url_secret = os.getenv('PG_URL_SECRET', 'postgresql://user:password@ip:port/schema?options=-c%20search_path%3Dschema')
+    secret_url = os.environ.get("PG_URL_SECRET")
+    client = secretmanager.SecretManagerServiceClient()
+    response = client.access_secret_version(request={"name": secret_url})
+    pg_url_secret = response.payload.data.decode("UTF-8")
+    # postgresql://user:password@ip:port/schema?options=-c%20search_path%3Dschema
 
     # Configuration JIRA
     jira_project_key = os.getenv('JIRA_PROJECT_KEY')

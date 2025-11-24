@@ -1,5 +1,5 @@
 [project]
-name = "jira-to-bq-cloud-run-template"
+name = "jira-db-to-bq-docker-img"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -7,5 +7,6 @@ requires-python = ">=3.13"
 dependencies = [
     "dlt[bigquery,postgres,sql-database]>=1.18.2",
     "dotenv>=0.9.9",
+    "google-cloud-secret-manager>=2.25.0",
     "loguru>=0.7.3",
 ]
